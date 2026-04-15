@@ -11,12 +11,19 @@ class CalculatorLogic {
     if (value == "C") {
       clear();
     }
+
+    else if (value == "⌫") {
+      backspace();
+    }
+
     else if (isOperator(value)) {
       setOperator(value);
     }
+
     else if (value == "=") {
-      // optional (already live hai)
+      // optional (you can extend later)
     }
+
     else {
       appendNumber(value);
     }
@@ -28,6 +35,22 @@ class CalculatorLogic {
     num1 = 0;
     operator = "";
     isNewNumber = false;
+  }
+
+  void backspace() {
+    // 🔥 OUTPUT BACKSPACE
+    if (output.isNotEmpty && output != "0") {
+      output = output.substring(0, output.length - 1);
+
+      if (output.isEmpty) {
+        output = "0";
+      }
+    }
+
+    // 🔥 INPUT BACKSPACE
+    if (input.isNotEmpty) {
+      input = input.substring(0, input.length - 1);
+    }
   }
 
   void appendNumber(String value) {
@@ -53,6 +76,7 @@ class CalculatorLogic {
   void setOperator(String op) {
     num1 = double.tryParse(output) ?? 0;
     operator = op;
+
     input += " $op ";
     isNewNumber = true;
   }
@@ -72,16 +96,14 @@ class CalculatorLogic {
       result = num1 / num2;
     }
 
-    // 🔥 FORMAT RESULT (NO .0 ISSUE)
     output = formatResult(result);
   }
 
-  // ✅ IMPORTANT FUNCTION
   String formatResult(double value) {
     if (value % 1 == 0) {
-      return value.toInt().toString(); // 5.0 → 5
+      return value.toInt().toString();
     } else {
-      return value.toString(); // 5.5 → 5.5
+      return value.toString();
     }
   }
 

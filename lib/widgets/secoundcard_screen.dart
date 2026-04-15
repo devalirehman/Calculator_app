@@ -14,19 +14,10 @@ class SecondCardScreenState extends State<SecondCardScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    List<String> buttons = [
-      "C", "+/-", "%", "/",
-      "7", "8", "9", "*",
-      "4", "5", "6", "-",
-      "1", "2", "3", "+",
-      "0", ".", "="
-    ];
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 2),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(27)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(09)),
         gradient: LinearGradient(
           colors: [
             theme.colorScheme.primary,
@@ -35,37 +26,81 @@ class SecondCardScreenState extends State<SecondCardScreen> {
         ),
         border: Border.all(color: theme.colorScheme.outline),
       ),
-      child: GridView.builder(
-        padding: const EdgeInsets.all(09),
-        itemCount: buttons.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              widget.onTap(buttons[index]);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black87.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Center(
-                child: Text(
-                  buttons[index],
-                  style: const TextStyle(
-                    fontSize: 33,
-                    fontWeight: FontWeight.w700,
-                  )
-                ),
-              ),
-            ),
-          );
-        },
+
+      child: Column(
+        children: [
+
+          buildRow(["C", "⌫", "%", "/"]),
+          buildRow(["7", "8", "9", "*"]),
+          buildRow(["4", "5", "6", "-"]),
+          buildRow(["1", "2", "3", "+"]),
+          buildLastRow(),
+
+        ],
       ),
     );
   }
-}
+
+  Widget buildRow(List<String> rowButtons) {
+    return Expanded(
+      child: Row(
+        children: rowButtons.map((text) {
+          return Expanded(
+            child: buildButton(text),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget buildButton(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(07),
+      child: ElevatedButton(
+        onPressed: () {
+          widget.onTap(text);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: getButtonColor(text),
+          minimumSize: Size(30, 95),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(45),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 30,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildLastRow() {
+    return Expanded(
+      child: Row(
+        children: [
+          Expanded(flex: 2, child: buildButton("0")),
+          Expanded(child: buildButton(".")),
+          Expanded(child: buildButton("=")),
+        ],
+      ),
+    );
+  }
+
+  Color getButtonColor(String text) {
+    if (text == "C") {
+      return Colors.red;
+    } else if (text == "⌫") {
+      return Colors.orange; // 🔥 new color
+    } else if (text == "=") {
+      return Colors.green;
+    } else if (["/", "*", "-", "+", "%"].contains(text)) {
+      return Colors.orange;
+    } else {
+      return Colors.grey.shade700;
+    }
+  }}

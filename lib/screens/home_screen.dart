@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final CalculatorLogic logic = CalculatorLogic();
 
   @override
@@ -26,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
 
-              // 🔢 DISPLAY
               FirstCardScreen(
                 input: logic.input,
                 output: logic.output,
@@ -34,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 12),
 
-              // 🔘 BUTTONS
               Expanded(
                 child: SecondCardScreen(
                   onTap: (value) {

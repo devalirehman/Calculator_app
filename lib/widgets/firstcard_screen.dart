@@ -37,7 +37,6 @@ class FirstCardScreenState extends State<FirstCardScreen> {
       child: Column(
         children: [
 
-          // 🔝 TOP BAR
           Container(
             height: 60,
             width: 389,
@@ -61,7 +60,6 @@ class FirstCardScreenState extends State<FirstCardScreen> {
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: theme.colorScheme.surfaceDim),
                     ),
                     child: Icon(Icons.wb_sunny_outlined),
                   ),
@@ -74,7 +72,6 @@ class FirstCardScreenState extends State<FirstCardScreen> {
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: theme.colorScheme.surfaceDim),
                   ),
                   child: Icon(Icons.history),
                 ),
@@ -82,7 +79,6 @@ class FirstCardScreenState extends State<FirstCardScreen> {
             ),
           ),
 
-          // 🔢 DISPLAY
           Expanded(
             child: Container(
               alignment: Alignment.bottomRight,
@@ -96,7 +92,6 @@ class FirstCardScreenState extends State<FirstCardScreen> {
                     widget.input,
                     style: const TextStyle(
                       fontSize: 22,
-                      color: Colors.black54,
                     ),
                   ),
 
