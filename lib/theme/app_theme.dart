@@ -15,9 +15,9 @@ class AppTheme {
 
   static final light = ThemeData(
     brightness: Brightness.light,
-    scaffoldBackgroundColor: const Color(0xFFF5F5F7),
+    scaffoldBackgroundColor: const Color(0xFF858181),
     colorScheme: const ColorScheme.light(
-      primary: Color(0xFFFFFFFF),
+      primary: Color(0xFFD9D7D7),
       secondary: Color(0xFFEDEDED),
       surface: Color(0xFFE5E5EA),
       outline: Color(0xFFF4F4FF),

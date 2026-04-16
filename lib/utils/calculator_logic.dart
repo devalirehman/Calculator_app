@@ -1,3 +1,10 @@
+class HistoryItem {
+  final String expression;
+  final String result;
+
+  HistoryItem({required this.expression, required this.result});
+}
+
 class CalculatorLogic {
   String input = "";
   String output = "0";
@@ -6,6 +13,8 @@ class CalculatorLogic {
   String operator = "";
 
   bool isNewNumber = false;
+
+  List<HistoryItem> history = []; // ✅ NEW
 
   void onButtonClick(String value) {
     if (value == "C") {
@@ -21,7 +30,7 @@ class CalculatorLogic {
     }
 
     else if (value == "=") {
-      // optional (you can extend later)
+      calculateFinal(); // ✅ NEW
     }
 
     else {
@@ -37,8 +46,11 @@ class CalculatorLogic {
     isNewNumber = false;
   }
 
+  void clearHistory() {
+    history.clear();
+  }
+
   void backspace() {
-    // 🔥 OUTPUT BACKSPACE
     if (output.isNotEmpty && output != "0") {
       output = output.substring(0, output.length - 1);
 
@@ -47,7 +59,6 @@ class CalculatorLogic {
       }
     }
 
-    // 🔥 INPUT BACKSPACE
     if (input.isNotEmpty) {
       input = input.substring(0, input.length - 1);
     }
@@ -67,7 +78,6 @@ class CalculatorLogic {
 
     input += value;
 
-    // 🔥 LIVE CALCULATION
     if (operator.isNotEmpty) {
       calculateLive();
     }
@@ -97,6 +107,27 @@ class CalculatorLogic {
     }
 
     output = formatResult(result);
+  }
+
+  void calculateFinal() {
+    // ✅ already calculated value use karo
+    String finalResult = output;
+
+    // ✅ save history
+    history.add(
+      HistoryItem(
+        expression: input,
+        result: finalResult,
+      ),
+    );
+
+    input = finalResult;
+    output = finalResult;
+
+    operator = ""; // 🔥 reset operator
+    num1 = double.tryParse(finalResult) ?? 0;
+
+    isNewNumber = true;
   }
 
   String formatResult(double value) {

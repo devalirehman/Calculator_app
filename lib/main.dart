@@ -17,11 +17,11 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  ThemeData _theme = AppTheme.dark;
+  ThemeData theme = AppTheme.dark;
 
   void toggleTheme() {
     setState(() {
-      _theme = _theme.brightness == Brightness.dark
+      theme = theme.brightness == Brightness.dark
           ? AppTheme.light
           : AppTheme.dark;
     });
@@ -30,12 +30,12 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return AnimatedTheme(
-      data: _theme,
+      data: theme,
       duration: const Duration(milliseconds: 900),
       curve: Curves.easeInOut,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: _theme,
+        theme: theme,
         home: const HomeScreen(),
       ),
     );

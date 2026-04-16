@@ -1,7 +1,7 @@
 import 'package:digital_calculator/widgets/firstcard_screen.dart';
 import 'package:digital_calculator/widgets/secoundcard_screen.dart';
 import 'package:flutter/material.dart';
-import '../utils/calculator_logic.dart';
+import 'package:digital_calculator/utils/calculator_logic.dart'; // ✅ FIXED
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,9 +28,15 @@ class _HomeScreenState extends State<HomeScreen> {
               FirstCardScreen(
                 input: logic.input,
                 output: logic.output,
+                history: logic.history,
+                onClearHistory: () {
+                  setState(() {
+                    logic.clearHistory();
+                  });
+                },
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 04),
 
               Expanded(
                 child: SecondCardScreen(

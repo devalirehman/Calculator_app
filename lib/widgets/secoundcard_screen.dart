@@ -17,7 +17,7 @@ class SecondCardScreenState extends State<SecondCardScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 2),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(09)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(06)),
         gradient: LinearGradient(
           colors: [
             theme.colorScheme.primary,
@@ -55,7 +55,7 @@ class SecondCardScreenState extends State<SecondCardScreen> {
 
   Widget buildButton(String text) {
     return Padding(
-      padding: const EdgeInsets.all(07),
+      padding: const EdgeInsets.all(06),
       child: ElevatedButton(
         onPressed: () {
           widget.onTap(text);

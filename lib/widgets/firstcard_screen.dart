@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
+import '../utils/calculator_logic.dart';
 
 class FirstCardScreen extends StatefulWidget {
   final String input;
   final String output;
 
+  final List<HistoryItem> history;
+  final VoidCallback onClearHistory;
+
   const FirstCardScreen({
     super.key,
     required this.input,
     required this.output,
+    required this.history,
+    required this.onClearHistory,
   });
 
   @override
@@ -16,6 +22,69 @@ class FirstCardScreen extends StatefulWidget {
 }
 
 class FirstCardScreenState extends State<FirstCardScreen> {
+  void showHistorySheet(BuildContext context) {
+    final theme = Theme.of(context);
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: theme.scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "History",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      widget.onClearHistory();
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Clear",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 10),
+
+              Expanded(
+                child: widget.history.isEmpty
+                    ? const Center(child: Text("No History Yet"))
+                    : ListView.builder(
+                        itemCount: widget.history.length,
+                        itemBuilder: (context, index) {
+                          final item = widget.history[index];
+
+                          return ListTile(
+                            title: Text(item.expression),
+                            trailing: Text(
+                              item.result,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -27,16 +96,12 @@ class FirstCardScreenState extends State<FirstCardScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
         gradient: LinearGradient(
-          colors: [
-            theme.colorScheme.primary,
-            theme.colorScheme.secondary,
-          ],
+          colors: [theme.colorScheme.primary, theme.colorScheme.secondary],
         ),
         border: Border.all(color: theme.colorScheme.surfaceDim),
       ),
       child: Column(
         children: [
-
           Container(
             height: 60,
             width: 389,
@@ -48,7 +113,6 @@ class FirstCardScreenState extends State<FirstCardScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 GestureDetector(
                   onTap: () {
                     MyApp.of(context)?.toggleTheme();
@@ -61,19 +125,24 @@ class FirstCardScreenState extends State<FirstCardScreen> {
                       color: theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Icon(Icons.wb_sunny_outlined),
+                    child: const Icon(Icons.wb_sunny_outlined),
                   ),
                 ),
 
-                Container(
-                  height: 50,
-                  width: 40,
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
-                    borderRadius: BorderRadius.circular(8),
+                GestureDetector(
+                  onTap: () {
+                    showHistorySheet(context);
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 40,
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.history),
                   ),
-                  child: Icon(Icons.history),
                 ),
               ],
             ),
@@ -87,13 +156,7 @@ class FirstCardScreenState extends State<FirstCardScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-
-                  Text(
-                    widget.input,
-                    style: const TextStyle(
-                      fontSize: 22,
-                    ),
-                  ),
+                  Text(widget.input, style: const TextStyle(fontSize: 22)),
 
                   const SizedBox(height: 10),
 
